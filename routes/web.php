@@ -19,12 +19,11 @@ Route::get('/admin/register','AuthController@getRegister')->name('admin.register
 Route::post('/admin/register','AuthController@postRegister')->name('admin.register');
 Route::get('/admin/logout','AuthController@logout')->name('admin.logout');
 
-Route::get('/admin', 'HomeController@dashboard')->name('admin.dashboard');
-Route::get('/admin/{any}', 'HomeController@dashboard')->where('any', '.*');
+Route::get('/admin', 'HomeController@dashboard')->name('admin.dashboard')->middleware('auth');
+Route::get('/admin/{any}', 'HomeController@dashboard')->where('any', '.*')->middleware('auth');
 
 /* Người dùng */
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/contact', 'HomeController@contact')->name('contact');
 Route::get('/post/{id}', 'PostController@detailPost')->name('detail_post');
@@ -39,6 +38,7 @@ Route::post('/comment', 'PostController@comment')->name('comment');
 Route::post('/reply', 'PostController@reply')->name('reply');
 // Xóa reply
 Route::get('/delete-reply/{id}', 'PostController@deleteReply')->name('delete_reply');
+Route::resource('categories', 'CategoryIndexController');
 
 
 /* api */
@@ -55,7 +55,7 @@ Route::group(['prefix' => 'api'], function() {
 
         Route::get('/count','PostController@countPost');
     });
-    
+
 
     //Category
     Route::group(['prefix' => 'categories'], function() {

@@ -9,31 +9,19 @@ use App\Models\Category;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $categories = Category::with(['childs', 'posts' => function ($query) {
-            $query->orderBy('created_at', 'desc')->take(config('app.take_categories'));
-        }])->isParent()->get();
         $newPosts = Post::orderByDesc('created_at')->take(8)->get();
+        $post = Post::first();
         $data = [
-            'categories' => $categories,
-            'newPosts' => $newPosts
+            'newPosts' => $newPosts,
+            'post' => $post
         ];
-        return view('home', $data);
+        return view('home2', $data);
     }
 
     public function contact(){
@@ -45,6 +33,9 @@ class HomeController extends Controller
     }
 
     public function dashboard(){
-        return view('Admin.Elements.master');
+        if (auth()->user()) {
+            return view('Admin.Elements.master');
+        }
+        return redirect()->route('home');
     }
 }
