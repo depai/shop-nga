@@ -15,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->extend('path.public', function ($pathPublic, $app) {
+            return $app['path.base'] . DIRECTORY_SEPARATOR . 'public_html';
+        });
     }
 
     /**
