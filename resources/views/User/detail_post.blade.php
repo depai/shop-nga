@@ -1,6 +1,6 @@
 @extends('User.Elements.master')
 @section('content')
-    <div class="page-wrapper mt-3">
+    <div class="page-wrapper mt-3 container">
         <article class="the-article type-text ">
             <header class="the-article-header">
                 <p class="the-article-category">

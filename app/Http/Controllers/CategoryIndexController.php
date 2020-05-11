@@ -12,6 +12,6 @@ class CategoryIndexController extends Controller
         $data = [
             'post' => $post
         ];
-        return view('home2', $data);
+        return view('posts.index', $data);
     }
 }

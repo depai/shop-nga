@@ -9,6 +9,7 @@
     <link href="https://thanhlapcongtylegalbiz.site/theme/css/style.css" rel="stylesheet" media="screen">
     <link href="https://thanhlapcongtylegalbiz.site/theme/css/skins/default.css" rel="stylesheet" media="screen">
 {{--    <link rel="stylesheet" href="{{ asset('/css/frontend/app.css') }}">--}}
+    <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body>
     @include('User.Elements.header')

@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $categories = Category::with(['childs', 'posts' => function ($query) {
             $query->orderBy('created_at', 'desc')->take(config('app.take_categories'));
-        }])->isParent()->get();
+        }])->isParent()->whereHas('posts')->get();
         View::share('categories', $categories);
         Schema::defaultStringLength(191);
     }

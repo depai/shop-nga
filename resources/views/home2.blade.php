@@ -1,52 +1,101 @@
 @extends('User.Elements.master')
 @section('content')
-    <div class="page-wrapper mt-3 container">
-        <article class="the-article type-text ">
-            <header class="the-article-header">
-                <p class="the-article-category">
-                    <a href="#" title="Thời sự" class="parent_cate">{{ $post->category->name }}</a>
-                </p>
-                <h1 class="the-article-title font-weight-bold" style="font-size: 2.6em;">{!! $post->title !!}</h1>
-                <ul class="the-article-meta">
-                    <li class="the-article-publish"><b style="color: #000">{{ $post->user->name }}</b> đăng lúc {{ date('H:m d/m/Y', strtotime($post->created_at)) }}</li>
-                </ul>
-            </header>
-            <section class="main">
-                <div class="the-article-summary">
-                    <p>{!! $post->description_short !!}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-9">
+                <div class="ticker-news">
+                    <span>Bài Viết Mới</span>
                 </div>
-                <div class="the-article-body">
-                    <p>{!! $post->description !!}</p>
-                </div>
-            </section>
-            <section class="my-4">
-                <p class="font-weight-bold mb-2">Ý KIẾN BẠN ĐỌC</p>
-                <form action="{{ route('comment', ['post_id' => $post->id]) }}" method="POST">
-                    @csrf
-                    <textarea class="form-control" name="description" id="" cols="30" rows="3" placeholder="Viết bình luận..."></textarea>
-                    <button style="margin: 10px 0;" type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
-                </form>
-            </section>
-            @foreach ($post->comments as $comment)
-                <div class="border-top mb-2 comment-parent pt-4 pb-4">
-                    {{-- Comment --}}
-                    <p class="mb-1 font-weight-bold">{{ $comment->user->name }} {{ $comment->created_at }}</p>
-                    <p class="mb-1">{{ $comment->description }}</p>
-                    <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
-                    <a href="{{ route('delete_comment', $comment->id) }}">Xóa</a>
 
-                    {{-- Reply --}}
-                    @foreach ($comment->replies as $reply)
-                        <p class="ml-5 mb-2">
-                            <span class="d-block mb-1 font-weight-bold">{{ $reply->user->name }}</span>
-                            <span class="d-block mb-1">{{ $reply->description }}</span>
-                            <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
-                            <a href="{{ route('delete_reply', $reply->id) }}">Xóa</a>
-                        </p>
-                    @endforeach
+                <div class="row">
+                    <div class="col-xs-5">
+                        @php($firstNewPost = $newPosts->first())
+                        @if($firstNewPost->image_thumb)
+                            <img src="{{ asset('images/post/' . $firstNewPost->image_thumb) }}" class="w-100">
+                        @endif
+                        <h5>{{ $firstNewPost->title }}</h5>
+                        <p>{!! $firstNewPost->description_short !!}</p>
+                    </div>
+                    <div class="col-xs-7">
+                        @foreach($newPosts as $key => $newPost)
+                            <div class="d-flex post-title">
+                                @if($newPost->image_thumb)
+                                    <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
+                                @endif
+                                <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark">
+                                    {{ $newPost->title }}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            @endforeach
-        </article>
+            </div>
+{{--            <div class="col-xs-3">--}}
+{{--                <div class="section-title-container">--}}
+{{--                    <h3 class="section-title section-title-normal">--}}
+{{--                        <span class="section-title-main">Tìm kiếm</span>--}}
+{{--                    </h3>--}}
+{{--                    <form method="get" class="searchform" action="#" role="search">--}}
+{{--                        <div class="flex-row relative">--}}
+{{--                            <div class="flex-col flex-grow">--}}
+{{--                                <input type="search" class="search-field mb-0" name="search" placeholder="Từ khóa tìm kiếm">--}}
+{{--                            </div>--}}
+{{--                            <div class="flex-col">--}}
+{{--                                <button type="submit" class="ux-search-submit submit-button secondary button icon mb-0">--}}
+{{--                                    <i class="icon-search"></i>--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="live-search-results text-left z-top"></div>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+        </div>
+
+        @foreach($categories as $category)
+            @php($firstNewPost = $category->posts->first())
+            @isset($firstNewPost)
+            <div class="row">
+                <div class="col-xs-9">
+                    <div class="ticker-news">
+                        <span>{{ $category->name }}</span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5">
+                                @if($firstNewPost->image_thumb)
+                                    <img src="{{ asset('images/post/' . $firstNewPost->image_thumb) }}" class="w-100">
+                                @endif
+                                <a href="{{ route('detail_post', $firstNewPost->id) }}" class="color-dark">
+                                    {{ $firstNewPost->title }}
+                                </a>
+                                <p>{!! $firstNewPost->description_short !!}</p>
+
+                        </div>
+                        <div class="col-xs-7">
+                            @foreach($category->posts as $key => $newPost)
+                                <div class="d-flex post-title">
+                                    @if($newPost->image_thumb)
+                                        <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
+                                    @endif
+                                    <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark">
+                                        {{ $newPost->title }}
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="section-title-container">
+                        <h3 class="section-title section-title-normal">
+                            <span class="section-title-main">Tin nổi bật</span>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+            @endisset
+        @endforeach
     </div>
     <!-- Phonering -->
     <div id="phonering-alo-phoneicon" class="phonering-alo-phone phonering-alo-green phonering-alo-show" >
