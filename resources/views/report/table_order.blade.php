@@ -262,7 +262,9 @@
 
     <!-- Modal footer -->
     <div class="modal-footer">
-        <button type="submit" class="btn btn-danger" id="edit_order">Cập nhật</button>
+        @if(!in_array($order->status_id, \App\Status::STATUS_NO_CHANGE) || auth()->user()->level === \App\User::ADMIN)
+            <button type="submit" class="btn btn-danger" id="edit_order">Cập nhật</button>
+        @endif
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
     </div>
 </form>

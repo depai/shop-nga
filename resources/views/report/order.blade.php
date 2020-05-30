@@ -2,6 +2,10 @@
 
 @section('content')
     @php($i = 0)
+    @php($admin = false)
+    @if(auth()->user()->level === \App\User::ADMIN)
+        @php($admin = true)
+    @endif
     <div class="container-fluid">
         <div class="row mt-1">
             <a class="ml-1 col-md-2 btn btn-danger" href="{{ route('product.export') }}">+ Bán hàng</a>
@@ -131,7 +135,11 @@
                         </div>
                         <div class="pt-2 pb-2 form-inline">
                             <span>{{ date_format($order->created_at,"d/m/Y") }}</span> <span class="ml-2 mr-2">{{ date_format($order->created_at,"H:i") }}</span>
-                            <select class="form-control d-inline-block" onchange="editStatus($(this).val(), {{ $order->id }})">
+                            <select class="form-control d-inline-block"
+                                    @if(in_array($order->status_id, \App\Status::STATUS_NO_CHANGE) && auth()->user()->level === \App\User::EMPLOYEE)
+                                        disabled
+                                    @endif
+                                    onchange="editStatus($(this).val(), {{ $order->id }})">
                                 @foreach($statuses->sortBy('name_sort') as $status)
                                     <option value="{{ $status->id }}" {{ ($order->status_id == $status->id) ? 'selected' : '' }}>
                                         {{ $status->name }}
@@ -141,7 +149,9 @@
                             <a target="_blank" class="mt-2 fa fa-print text-dark pl-2" aria-hidden="true" href="{{ route('print_order', $order->id) }}"></a>
                             <i class="mt-2 mr-2 fas fa-pen pl-2 cursor-pointer" aria-hidden="true"  onclick="getInfoOrder({{ $order->id }})"></i>
                             <a class="mt-2 fas fa-plus text-dark pl-2" aria-hidden="true" href="{{ route('product.export_for_customer', $order->customer->id) }}"></a>
+                            @if($admin)
                             <i class="mt-2 mr-2 fas fa-times pl-2 cursor-pointer js-remove-order" style="color: red" aria-hidden="true" data-url="{{ route('order.destroy', $order->id) }}"></i>
+                            @endif
                         </div>
                     </div>
                 </div>

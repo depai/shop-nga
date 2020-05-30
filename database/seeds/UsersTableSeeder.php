@@ -15,10 +15,10 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'account' => 'admin',
-                'name' => 'ADMIN',
-                'phone' => '0213213211',
-                'email' => 'admin@gmail.com',
+                'account' => 'admin1',
+                'name' => 'ADMIN1',
+                'phone' => '02132132111',
+                'email' => 'admin1@gmail.com',
                 'level' => User::ADMIN,
                 'is_active' => User::ACTIVE,
                 'password' => bcrypt('admin'),

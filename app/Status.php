@@ -9,6 +9,7 @@ class Status extends Model
     const ORDER = 2;
     const PRODUCT = 1;
     const PAGINATE = 10;
+    const STATUS_NO_CHANGE = [2, 3, 5];
     protected $fillable = [
         'name', 'type'
     ];
