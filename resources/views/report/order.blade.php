@@ -93,7 +93,7 @@
                         </div>
                         <div class="pt-2 pb-2">
                             <i class="mr-2 fa fa-phone" aria-hidden="true"></i>
-                            <a href="{{ route('report.order') . '?code=' . $order->customer->phone }}" class="
+                            <a href="{{ route('report.order') . '?code=' . $order->customer->phone . '&search=1' }}" class="
                                 @if($order->customer->orders->count() > 1)
                                 text-success
                                 @else
@@ -136,7 +136,7 @@
                         <div class="pt-2 pb-2 form-inline">
                             <span>{{ date_format($order->created_at,"d/m/Y") }}</span> <span class="ml-2 mr-2">{{ date_format($order->created_at,"H:i") }}</span>
                             <select class="form-control d-inline-block"
-                                    @if(in_array($order->status_id, \App\Status::STATUS_NO_CHANGE) && auth()->user()->level === \App\User::EMPLOYEE)
+                                    @if(in_array($order->status_id, \App\Status::STATUS_NO_CHANGE) && auth()->user()->level == \App\User::EMPLOYEE)
                                         disabled
                                     @endif
                                     onchange="editStatus($(this).val(), {{ $order->id }})">
@@ -168,6 +168,7 @@
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'search' => 1,
+                'code' => $request->code
             ])
             ->links() }}
         </div>
