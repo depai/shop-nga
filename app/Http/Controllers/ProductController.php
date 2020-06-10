@@ -334,7 +334,6 @@ class ProductController extends Controller
         $stt = $request->stt;
         $product = Product::with('productSuppliers.type')->findOrFail($request->id);
         $productSuppliers = $product->productSuppliers()->get()->unique('type_id');
-
         return view('product.select_type', compact('productSuppliers', 'stt'));
     }
 
@@ -342,7 +341,7 @@ class ProductController extends Controller
     public function ajaxGetTypeName(Request $request)
     {
         $name = Type::findOrFail($request->id)->name;
-        
+
         return view('product.input_type_name', compact('name'));
     }
 

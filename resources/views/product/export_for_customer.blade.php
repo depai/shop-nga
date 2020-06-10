@@ -187,7 +187,7 @@
                             </td>
                             <td id="nameProduct0"></td>
                             <td class="text-center">
-                                <input type="number" min="0" onkeyup="setProduct(0)" class="form-control text-center" name="product[0][number]" id="" value="1">
+                                <input type="number" min="0" onchange="setProduct(0)" class="form-control text-center" name="product[0][number]" id="" value="1">
                             </td>
                             <td class="text-center" id="price0">
                             </td>
@@ -218,7 +218,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <th colspan="6">Tổng cộng</th>
+                            <th colspan="6">Tổng cộng (<span id="countProduct">0</span> mặt hàng)</th>
                             <td class="text-center" id="total">0</td>
                             <td></td>
                         </tr>
@@ -278,12 +278,12 @@
             </td>
             <td id="selectType${stt}">
                     <select class="form-control select2" id="" name="product[${stt}][type]" onchange="setProduct(${stt})">
-                    
+
                 </select>
             </td>
             <td id="nameProduct${stt}"></td>
             <td class="text-center">
-                <input type="number" min="0" onkeyup="setProduct(${stt})" class="form-control text-center" name="product[${stt}][number]" id="" value="1">
+                <input type="number" min="0" onchange="setProduct(${stt})" class="form-control text-center" name="product[${stt}][number]" id="" value="1">
             </td>
             <td class="text-center" id="price${stt}">
             </td>
@@ -302,8 +302,11 @@
             var tong = parseInt(sum_old-money);
             var tongcong_old = parseInt($(`#total`).html());
             var tongcong = parseInt(tongcong_old-money);
+            let countProduct = parseInt($('#countProduct').text());
+            let numberProduct = parseInt($(`input[name="product[${id}][number]"]`).val());
             $('#sumPrice').html(tong);
             $('#total').html(tongcong);
+            $('#countProduct').text(countProduct - numberProduct);
             $(`#delete${id}`).closest('tr').remove();
         }
 
@@ -328,8 +331,9 @@
         }
 
         function setProduct(id) {
+            console.log(id);
             let sumPrice = 0;
-
+            let countProduct = 0;
             if($(`select[name="product[${id}][name]"]`).val() && $(`select[name="product[${id}][type]"]`).val())
             {
                 $(`#nameProduct${id}`).text(JSON.parse($(`select[name="product[${id}][name]"]`).val()).name
@@ -338,21 +342,18 @@
                 let price = JSON.parse($(`select[name="product[${id}][name]"]`).val()).export_prince * $(`input[name="product[${id}][number]"]`).val();
                 $(`#money${id}`).text(price);
                 for (let i = 0; i <= stt; i++) {
-                    // let price = JSON.parse($(`select[name="product[${i}][name]"]`).val()).export_prince * $(`input[name="product[${i}][number]"]`).val();
-
                     if ($(`select[name="product[${i}][name]"]`).val())
                     {
                         price = JSON.parse($(`select[name="product[${i}][name]"]`).val()).export_prince * $(`input[name="product[${i}][number]"]`).val();
+                        countProduct += parseInt($(`input[name="product[${i}][number]"]`).val());
                     }
                     else{
                         price = parseInt('0');
                     }
-
-
-
                     sumPrice += price;
                 }
                 $('#sumPrice').text(sumPrice);
+                $('#countProduct').text(countProduct);
             }
             setSale();
         }

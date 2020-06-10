@@ -192,7 +192,7 @@
                             <td class="text-center" id="price0">
                             </td>
                             <td class="text-center" id="money0"></td>
-                            <td class="text-center"><button type="button" id="delete${stt}" class="btn-del-attr btn bg-danger" onclick="deleteOrder(${stt});">Xóa</button></td>
+                            <td class="text-center"><button type="button" id="delete0" class="btn-del-attr btn bg-danger" onclick="deleteOrder(0);">Xóa</button></td>
                         </tr>
                         </tbody>
                         <tr>
@@ -218,7 +218,7 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <th colspan="6">Tổng cộng</th>
+                            <th colspan="6">Tổng cộng (<span id="countProduct">0</span> mặt hàng)</th>
                             <td class="text-center" id="total">0</td>
                             <td></td>
                         </tr>
@@ -364,14 +364,17 @@
             var tong = parseInt(sum_old-money);
             var tongcong_old = parseInt($(`#total`).html());
             var tongcong = parseInt(tongcong_old-money);
+            let countProduct = parseInt($('#countProduct').text());
+            let numberProduct = parseInt($(`input[name="product[${id}][number]"]`).val());
             $('#sumPrice').html(tong);
             $('#total').html(tongcong);
+            $('#countProduct').text(countProduct - numberProduct);
             $(`#delete${id}`).closest('tr').remove();
         }
 
         function setProduct(id) {
             let sumPrice = 0;
-
+            let countProduct = 0;
             if($(`select[name="product[${id}][name]"]`).val() && $(`select[name="product[${id}][type]"]`).val())
             {
                 $(`#nameProduct${id}`).text(JSON.parse($(`select[name="product[${id}][name]"]`).val()).name
@@ -383,6 +386,7 @@
                     if ($(`select[name="product[${i}][name]"]`).val())
                     {
                         price = JSON.parse($(`select[name="product[${i}][name]"]`).val()).export_prince * $(`input[name="product[${i}][number]"]`).val();
+                        countProduct += parseInt($(`input[name="product[${i}][number]"]`).val());
                     }
                     else{
                         price = parseInt('0');
@@ -390,6 +394,7 @@
                     sumPrice += price;
                 }
                 $('#sumPrice').text(sumPrice);
+                $('#countProduct').text(countProduct);
             }
             setSale();
         }
