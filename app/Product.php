@@ -17,6 +17,7 @@ class Product extends Model
         'image',
         'user_id',
         'category_id',
+        'url'
     ];
 
     public function category()
@@ -54,7 +55,7 @@ class Product extends Model
         $products = $this->productSuppliers->where('type_id', $type);
         return $products->sum('number');
     }
-  
+
     public function getTotalImportNumberAttribute()
     {
         return $this->productSuppliers->sum('number');

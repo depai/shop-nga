@@ -102,6 +102,12 @@
                                 </select>
                             </td>
                         </tr>
+                        <tr>
+                            <td>Url</td>
+                            <td>
+                                <input class="form-control my-1" value="" name="url">
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <div class="col-5">

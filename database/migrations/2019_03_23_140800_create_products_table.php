@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('export_prince')->default(0);
             $table->string('unit', 255)->default('VNĐ');
             $table->string('image', 255)->nullable();
+            $table->string('url', 255)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');

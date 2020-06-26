@@ -218,7 +218,9 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <th colspan="6">Tổng cộng (<span id="countProduct">0</span> mặt hàng)</th>
+                            <th colspan="4">Tổng cộng</th>
+                            <td class="text-center"><span id="countProduct">0</span></td>
+                            <td></td>
                             <td class="text-center" id="total">0</td>
                             <td></td>
                         </tr>

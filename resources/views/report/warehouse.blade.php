@@ -77,7 +77,7 @@
                             <td rowspan="{{ $rowSpan }}" class="text-center font-weight-bold">{{ $stt++ }}</td>
                             <td class="text-center" rowspan="{{ $rowSpan }}"><img style="width: 100px; height: auto" src="{{ asset('storage/' . $product->image) }}"></td>
                             <td class="text-center" rowspan="{{ $rowSpan }}">{{ $product->code }}</td>
-                            <td rowspan="{{ $rowSpan }}">{{ $product->name }}</td>
+                            <td rowspan="{{ $rowSpan }}"><a href="{{ $product->url }}" target="_blank">{{ $product->name }}</a></td>
                             @if(auth()->user()->level == 1)
                             <td rowspan="{{ $rowSpan }}" class="text-center">{{ number_format($product->import_prince) }}</td>
                             @endif
