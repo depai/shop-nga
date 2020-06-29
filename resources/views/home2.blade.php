@@ -13,46 +13,47 @@
                         @if($firstNewPost->image_thumb)
                             <img src="{{ asset('images/post/' . $firstNewPost->image_thumb) }}" class="w-100">
                         @endif
-                        <h5>{{ $firstNewPost->title }}</h5>
+                        <a href="{{ route('detail_post', $firstNewPost->id) }}" class="color-dark font-weight-bold">
+                            {!! $firstNewPost->title !!}
+                        </a>
                         <p>{!! $firstNewPost->description_short !!}</p>
                     </div>
                     <div class="col-xs-7">
                         @foreach($newPosts as $key => $newPost)
-                            <div class="d-flex post-title">
-                                @if($newPost->image_thumb)
-                                    <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
-                                @endif
-                                <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark">
-                                    {{ $newPost->title }}
-                                </a>
-                            </div>
+                            @if($key > 0)
+                                <div class="d-flex post-title">
+                                    @if($newPost->image_thumb)
+                                        <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
+                                    @endif
+                                    <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark font-weight-bold">
+                                        {!! $newPost->title !!}
+                                    </a>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
             </div>
-{{--            <div class="col-xs-3">--}}
-{{--                <div class="section-title-container">--}}
-{{--                    <h3 class="section-title section-title-normal">--}}
-{{--                        <span class="section-title-main">Tìm kiếm</span>--}}
-{{--                    </h3>--}}
-{{--                    <form method="get" class="searchform" action="#" role="search">--}}
-{{--                        <div class="flex-row relative">--}}
-{{--                            <div class="flex-col flex-grow">--}}
-{{--                                <input type="search" class="search-field mb-0" name="search" placeholder="Từ khóa tìm kiếm">--}}
-{{--                            </div>--}}
-{{--                            <div class="flex-col">--}}
-{{--                                <button type="submit" class="ux-search-submit submit-button secondary button icon mb-0">--}}
-{{--                                    <i class="icon-search"></i>--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="live-search-results text-left z-top"></div>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="col-xs-3">
+                <div class="section-title-container">
+                    <h3 class="section-title section-title-normal">
+                        <span class="section-title-main">Dịch vụ công ty</span>
+                    </h3>
+                    @foreach($posts as $post)
+                        <div class="d-flex post-title">
+                            @if($post->image_thumb)
+                                <img src="{{ asset('images/post/' . $post->image_thumb) }}" class="w-25">
+                            @endif
+                            <a href="{{ route('detail_post', $post->id) }}" class="color-dark font-weight-bold">
+                                {!! $post->title !!}
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
 
-        @foreach($categories as $category)
+        @foreach($categories as $k => $category)
             @php($firstNewPost = $category->posts->first())
             @isset($firstNewPost)
             <div class="row">
@@ -65,34 +66,41 @@
                                 @if($firstNewPost->image_thumb)
                                     <img src="{{ asset('images/post/' . $firstNewPost->image_thumb) }}" class="w-100">
                                 @endif
-                                <a href="{{ route('detail_post', $firstNewPost->id) }}" class="color-dark">
-                                    {{ $firstNewPost->title }}
+                                <a href="{{ route('detail_post', $firstNewPost->id) }}" class="color-dark font-weight-bold">
+                                    {!! $firstNewPost->title !!}
                                 </a>
                                 <p>{!! $firstNewPost->description_short !!}</p>
 
                         </div>
                         <div class="col-xs-7">
                             @foreach($category->posts as $key => $newPost)
-                                <div class="d-flex post-title">
-                                    @if($newPost->image_thumb)
-                                        <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
-                                    @endif
-                                    <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark">
-                                        {{ $newPost->title }}
-                                    </a>
-                                </div>
+                                @if($key > 0)
+                                    <div class="d-flex post-title">
+                                        @if($newPost->image_thumb)
+                                            <img src="{{ asset('images/post/' . $newPost->image_thumb) }}" class="w-25">
+                                        @endif
+                                        <a href="{{ route('detail_post', $newPost->id) }}" class="color-dark font-weight-bold">
+                                            {!! $newPost->title !!}
+                                        </a>
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-3">
-                    <div class="section-title-container">
-                        <h3 class="section-title section-title-normal">
-                            <span class="section-title-main">Tin nổi bật</span>
-                        </h3>
-
+                @if($k === 1)
+                    <div class="col-xs-3">
+                        <div class="section-title-container">
+                            <h3 class="section-title section-title-normal">
+                                <span class="section-title-main">Các bài viết mới</span>
+                            </h3>
+                        </div>
                     </div>
-                </div>
+                @elseif($k === 2)
+                    <div class="col-xs-3">
+                        @include('layout.sidebar_right', ['newPosts' => $newPosts])
+                    </div>
+                @endif
             </div>
             @endisset
         @endforeach

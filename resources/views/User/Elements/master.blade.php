@@ -10,6 +10,17 @@
     <link href="https://thanhlapcongtylegalbiz.site/theme/css/skins/default.css" rel="stylesheet" media="screen">
 {{--    <link rel="stylesheet" href="{{ asset('/css/frontend/app.css') }}">--}}
     <link href="{{ asset('css/frontend.css') }}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Open Sans';
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Open Sans';
+            font-weight: 800;
+        }
+    </style>
 </head>
 <body>
     @include('User.Elements.header')

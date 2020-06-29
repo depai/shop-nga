@@ -6,7 +6,7 @@
                 <p class="the-article-category">
                     <a href="/thoi-su.html" title="Thời sự" class="parent_cate">{{ $post->categories->name }}</a>
                 </p>
-                <h1 class="the-article-title font-weight-bold" style="font-size: 2.6em;">{{ $post->title }}</h1>
+                <h1 class="the-article-title font-weight-bold" style="font-size: 2.6em;">{!! $post->title !!}</h1>
                 <ul class="the-article-meta">
                     <li class="the-article-publish"><b style="color: #000">{{ $post->user->name }}</b> đăng lúc {{ date('H:m d/m/Y', strtotime($post->created_at)) }}</li>
                 </ul>

@@ -30,7 +30,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                                
+
                             </div>
 
                             <div class="row">
@@ -42,9 +42,9 @@
                                                     <label for="title" class="col-md-12 txt-bold">Tiêu đề</label>
                                                     <div class="col-md-12">
                                                         <ValidationProvider rules="required" name="Tiêu đề" v-slot="{ errors }">
-                                                            <wysiwyg 
+                                                            <wysiwyg
                                                                 v-bind:class="errors[0]?'border-danger':''"
-                                                                v-model="post.title" 
+                                                                v-model="post.title"
                                                                 placeholder="Không quá 200 ký tự"
                                                                 class="h-editor-40"
                                                             />
@@ -58,7 +58,7 @@
                                                     <label for="title" class="col-md-12 txt-bold">SEO tiêu đề</label>
                                                     <div class="col-md-12">
                                                         <ValidationProvider rules="required" name="SEO tiêu đề" v-slot="{ errors }">
-                                                            <textarea 
+                                                            <textarea
                                                                 v-model="post.seo_title"
                                                                 class="form-control"
                                                                 rows="3"
@@ -74,9 +74,9 @@
                                                     <label for="title" class="col-md-12 txt-bold">Mô tả</label>
                                                     <div class="col-md-12">
                                                         <ValidationProvider rules="required" name="Mô tả" v-slot="{ errors }">
-                                                            <wysiwyg 
+                                                            <wysiwyg
                                                                 v-bind:class="errors[0]?'border-danger':''"
-                                                                v-model="post.description_short" 
+                                                                v-model="post.description_short"
                                                                 placeholder="Không quá 3 dòng văn bản"
                                                                 class="h-editor-40"
                                                             />
@@ -90,9 +90,9 @@
                                                     <label for="description" class="col-md-12 txt-bold">Nội dung</label>
                                                     <div class="col-md-12">
                                                         <ValidationProvider rules="required" name="Nội dung" v-slot="{ errors }">
-                                                            <wysiwyg 
+                                                            <wysiwyg
                                                                 v-bind:class="errors[0]?'border-danger':''"
-                                                                v-model="post.description" 
+                                                                v-model="post.description"
                                                                 placeholder=""
                                                                 class="editor"
                                                             />
@@ -107,8 +107,8 @@
                                                     <label for="tag" class="col-md-12 txt-bold">Danh mục</label>
                                                     <div class="col-md-12">
                                                         <ValidationProvider rules="required" name="Danh mục" v-slot="{ errors }">
-                                                            <multiselect 
-                                                                v-model="post.categories" 
+                                                            <multiselect
+                                                                v-model="post.categories"
                                                                 :options="allCategories"
                                                                 label="name"
                                                                 track-by="id"
@@ -128,10 +128,10 @@
                                                                 <i class="fa fa-cloud-upload icon-upload-thumb"></i>
                                                             </label>
                                                             <ValidationProvider class="d-flex" rules="required" name="Ảnh đại diện" v-slot="{ errors }">
-                                                                <input 
-                                                                    type="file" 
-                                                                    id="chooseImage" 
-                                                                    class="d-none" 
+                                                                <input
+                                                                    type="file"
+                                                                    id="chooseImage"
+                                                                    class="d-none"
                                                                     @change="onFileChange"
                                                                     v-bind:class="errors[0]?'border-danger':''"
                                                                 >
@@ -300,8 +300,6 @@ export default {
     .txt-bold {
         font-weight: 600 !important;
     }
-
-    
 
     .page-post {
         .nav-tabs-profile .nav-link.active {

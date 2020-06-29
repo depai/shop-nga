@@ -1,54 +1,76 @@
 @extends('User.Elements.master')
 @section('content')
-    <div class="page-wrapper mt-3 container">
-        <article class="the-article type-text ">
-            <header class="the-article-header">
-                <p class="the-article-category">
-                    <a href="#" class="parent_cate">
-                        {{ $post->category->name}}
-                    </a>
-                </p>
-                <h1 class="the-article-title font-weight-bold" style="font-size: 2.6em;">{!! $post->title !!}</h1>
-                <ul class="the-article-meta">
-                    <li class="the-article-publish"><b style="color: #000">{{ $post->user->name }}</b> đăng lúc {{ date('H:m d/m/Y', strtotime($post->created_at)) }}</li>
-                </ul>
-            </header>
-            <section class="main">
-                <div class="the-article-summary">
-                    <p>{!! $post->description_short !!}</p>
-                </div>
-                <div class="the-article-body">
-                    <p>{!! $post->description !!}</p>
-                </div>
-            </section>
-            <section class="my-4">
-                <p class="font-weight-bold mb-2">Ý KIẾN BẠN ĐỌC</p>
-                <form action="{{ route('comment', ['post_id' => $post->id]) }}" method="POST">
-                    @csrf
-                    <textarea class="form-control" name="description" id="" cols="30" rows="3" placeholder="Viết bình luận..."></textarea>
-                    <button style="margin: 10px 0;" type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
-                </form>
-            </section>
-            @foreach ($post->comments as $comment)
-                <div class="border-top mb-2 comment-parent pt-4 pb-4">
-                    {{-- Comment --}}
-                    <p class="mb-1 font-weight-bold">{{ $comment->user->name }} {{ $comment->created_at }}</p>
-                    <p class="mb-1">{{ $comment->description }}</p>
-                    <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
-                    <a href="{{ route('delete_comment', $comment->id) }}">Xóa</a>
+    <div class="page-wrapper mt-3 container" style="min-height: 800px">
+        <div class="row">
+            <div class="col-xs-9">
+                @if($post)
+                    <article class="the-article type-text ">
+                        <header class="the-article-header">
+                            <p class="the-article-category">
+                                <a href="#" class="parent_cate">
+                                    {{ $post->category->name}}
+                                </a>
+                            </p>
+                            <h1 class="the-article-title font-weight-bold" style="font-size: 2.6em;">{!! $post->title !!}</h1>
+                            <ul class="the-article-meta">
+                                <li class="the-article-publish"><b style="color: #000">{{ $post->user->name }}</b> đăng lúc {{ date('H:m d/m/Y', strtotime($post->created_at)) }}</li>
+                            </ul>
+                        </header>
+                        <img src="{{ asset('images/post/' . $post->image_thumb) }}" class="w-100">
+                        <section class="main">
+                            <div class="the-article-summary">
+                                <p>{!! $post->description_short !!}</p>
+                            </div>
+                            <div class="the-article-body">
+                                <p>{!! $post->description !!}</p>
+                            </div>
+                        </section>
+                        <section class="my-4">
+                            <p class="font-weight-bold mb-2">Ý KIẾN BẠN ĐỌC</p>
+                            <form action="{{ route('comment', ['post_id' => $post->id]) }}" method="POST">
+                                @csrf
+                                <textarea class="form-control" name="description" id="" cols="30" rows="3" placeholder="Viết bình luận..."></textarea>
+                                <button style="margin: 10px 0;" type="submit" class="btn btn-primary mt-2">Gửi bình luận</button>
+                            </form>
+                        </section>
+                        @foreach ($post->comments as $comment)
+                            <div class="border-top mb-2 comment-parent pt-4 pb-4">
+                                {{-- Comment --}}
+                                <p class="mb-1 font-weight-bold">{{ $comment->user->name }} {{ $comment->created_at }}</p>
+                                <p class="mb-1">{{ $comment->description }}</p>
+                                <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
+                                <a href="{{ route('delete_comment', $comment->id) }}">Xóa</a>
 
-                    {{-- Reply --}}
-                    @foreach ($comment->replies as $reply)
-                        <p class="ml-5 mb-2">
-                            <span class="d-block mb-1 font-weight-bold">{{ $reply->user->name }}</span>
-                            <span class="d-block mb-1">{{ $reply->description }}</span>
-                            <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
-                            <a href="{{ route('delete_reply', $reply->id) }}">Xóa</a>
-                        </p>
-                    @endforeach
-                </div>
-            @endforeach
-        </article>
+                                {{-- Reply --}}
+                                @foreach ($comment->replies as $reply)
+                                    <p class="ml-5 mb-2">
+                                        <span class="d-block mb-1 font-weight-bold">{{ $reply->user->name }}</span>
+                                        <span class="d-block mb-1">{{ $reply->description }}</span>
+                                        <a href="javascript: void(0)" title="" class="reply mr-3" data-comment-id="{{ $comment->id }}">Trả lời</a>
+                                        <a href="{{ route('delete_reply', $reply->id) }}">Xóa</a>
+                                    </p>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    </article>
+                @endif
+                @foreach($posts as $key => $value)
+                    @if($key > 0)
+                        <div class="d-flex post-title">
+                            @if($value->image_thumb)
+                                <img src="{{ asset('images/post/' . $value->image_thumb) }}" class="w-25">
+                            @endif
+                            <a href="{{ route('detail_post', $value->id) }}" class="color-dark font-weight-bold">
+                                {!! $value->title !!}
+                            </a>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+            <div class="col-xs-3">
+                @include('layout.sidebar_right', ['newPosts' => $newPosts])
+            </div>
+        </div>
     </div>
     <!-- Phonering -->
     <div id="phonering-alo-phoneicon" class="phonering-alo-phone phonering-alo-green phonering-alo-show" >

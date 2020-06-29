@@ -17,19 +17,19 @@
                                 <i class="fa fa-home fa-lg fa-fw"></i>
                                 Trang chủ</a></li>
                         @foreach($categories as $category)
-                            <li>
-                                <a href="{{ route('categories.show', $category->id) }}">
+                            <li class="dropdown">
+                                <a href="{{ route('categories.show', $category->id) }}" class="dropdown-toggle " data-toggle="dropdown" aria-expanded="true">
                                     {{ $category->name }}</a>
+                                @foreach($category->childs as $key => $child)
+                                    @if($child->posts->count())
+                                        @if($key === 0)
+                                            <ul class="dropdown-menu ">
+                                        @endif
+                                        <li><a href="{{ route('categories.show', $child->id) }}">{{ $child->name }}</a></li>
+                                        @if($key === $category->childs()->whereHas('posts')->count() - 1)</ul>@endif
+                                    @endif
+                                @endforeach
                             </li>
-{{--                            <li class="dropdown">--}}
-{{--                                <a href="{{ route('home') }}" class="dropdown-toggle " data-toggle="dropdown" aria-expanded="true">--}}
-{{--                                    {{ $category->name }}</a>--}}
-{{--                                @foreach($category->childs as $child)--}}
-{{--                                    <ul class="dropdown-menu ">--}}
-{{--                                        <li><a href="{{ route('home') }}">{{ $child->name }}</a></li>--}}
-{{--                                    </ul>--}}
-{{--                                @endforeach--}}
-{{--                            </li>--}}
                         @endforeach
                     </ul>
                 </div>

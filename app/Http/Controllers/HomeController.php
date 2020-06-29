@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use Illuminate\Http\Request;
-use App\Models\Post;
 use App\Models\Category;
-use Illuminate\Support\Facades\Log;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -17,11 +14,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $newPosts = Post::orderByDesc('created_at')->take(8)->get();
-        $post = Post::first();
+        $newPosts = Post::orderByDesc('created_at')->take(5)->get();
+        $category = Category::with('posts')->where('name', 'dịch vụ doanh nghiệp')->first();
         $data = [
             'newPosts' => $newPosts,
-            'post' => $post
+            'posts' => !empty($category) ? $category->posts : []
         ];
         return view('home2', $data);
     }

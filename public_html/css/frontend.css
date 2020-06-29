@@ -145,3 +145,25 @@ i[class^="icon-"] {
 .post-title img {
     margin: 0 10px 10px 0;
 }
+
+.section-title::after {
+    content: none
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.footer-wrapper {
+    background-color: #e6e6e645;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.icon-info {
+    font-size: 26px;
+    cursor: pointer;
+    margin-right: 10px;
+}

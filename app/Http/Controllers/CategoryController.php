@@ -14,11 +14,11 @@ class CategoryController extends Controller
     }
 
     public function getAllCategories(){
-        return Category::all();
+        return Category::isNotParent()->get();
     }
 
     /* menu tree */
-    public function treeView(){       
+    public function treeView(){
         $categories = Category::where('parent_id', '=', NULL)->get();
         $tree='<ul id="browser" class="filetree">';
         foreach ($categories as $category) {
@@ -30,18 +30,18 @@ class CategoryController extends Controller
         $tree .='<ul>';
         return $tree;
     }
-    public function childView($category){                 
+    public function childView($category){
         $html ='<ul>';
         foreach ($category->childs as $arr) {
             if(count($arr->childs)){
-                $html .='<li class="tree-view closed"><a class="tree-name">- '.$arr->name.'</a>';                  
+                $html .='<li class="tree-view closed"><a class="tree-name">- '.$arr->name.'</a>';
                 $html.= $this->childView($arr);
             }else{
-                $html .='<li class="tree-view"><a class="tree-name">- '.$arr->name.'</a>';                                 
+                $html .='<li class="tree-view"><a class="tree-name">- '.$arr->name.'</a>';
                 $html .="</li>";
             }
         }
-        
+
         $html .="</ul>";
         return $html;
     }
